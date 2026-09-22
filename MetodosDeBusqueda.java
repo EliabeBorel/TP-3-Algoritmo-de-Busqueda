@@ -6,6 +6,7 @@ public class MetodosDeBusqueda {
 		
 		
 		System.out.println("Prueba");
+		System.out.println("Prueba 3");
 		
 		
 		sc.close();
