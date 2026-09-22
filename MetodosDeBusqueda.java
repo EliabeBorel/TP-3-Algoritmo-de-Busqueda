@@ -9,6 +9,10 @@ public class MetodosDeBusqueda {
 		System.out.println("Prueba 3");		
 		System.out.println("Prueba 2");
 		
+		String[] lol = {"xd","lol"};
+		for (String xd : lol)
+			System.out.println("jdksladjlksadjklsa");
+
 		sc.close();
 	}
 }
