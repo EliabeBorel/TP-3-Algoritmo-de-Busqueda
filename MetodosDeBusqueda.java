@@ -13,6 +13,10 @@ public class MetodosDeBusqueda {
 		for (String xd : lol)
 			System.out.println("jdksladjlksadjklsa");
 
+		for (int i = 1; i <= 2; i++) {
+			System.out.println(i);		
+		}
+
 		sc.close();
 	}
 }
