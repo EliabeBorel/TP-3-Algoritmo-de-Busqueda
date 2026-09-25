@@ -20,8 +20,14 @@ public class BuscadorLineal {
      * No olviden medir el tiempo con System.nanoTime() y contar cuántas
      * comparaciones hicieron (parte del informe pide esos datos).
      */
-    public static Sospechoso buscarPorCodigo(List<Sospechoso> lista, int codigo) {
+    public static Sospechoso buscarPorCodigoLineal(List<Sospechoso> lista, int codigo) {
         // TODO: implementar búsqueda lineal
+    	
+    	for (int i = 0; i < lista.size(); i++) {
+    		 if (lista.get(i).getCodigo() == codigo) {
+	    			return lista.get(i);
+    		 }
+    		}
         return null;
     }
 
@@ -33,6 +39,17 @@ public class BuscadorLineal {
     public static List<Sospechoso> buscarPorCiudadYRiesgoMinimo(
             List<Sospechoso> lista, String ciudad, int riesgoMinimo) {
         // TODO: implementar filtro lineal
-        return new ArrayList<>();
+    	
+    	List<Sospechoso> listaSospechososCiudad = new ArrayList<>();
+    	
+    	for (int i = 0; i < lista.size(); i++) {
+    		Sospechoso s = lista.get(i);
+    		
+    		if ((s.getCiudad().equalsIgnoreCase(ciudad)) && (lista.get(i).getNivelDeRiesgo() >= riesgoMinimo)) {
+    			listaSospechososCiudad.add(s);
+    		}
+    	}
+    	
+        return listaSospechososCiudad;
     }
 }
