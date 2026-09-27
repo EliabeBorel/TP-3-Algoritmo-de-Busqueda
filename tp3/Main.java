@@ -17,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("TP3 — Búsqueda Lineal y Binaria\n");
-        //cantdades de sospechosos para prueba
+        // Cantdades de sospechosos para prueba
         int[] cantidades= {500,5000,10000,100000};
         // El archivo "en bruto": ya viene cargado y desordenado.
         List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[1]);
@@ -28,7 +28,7 @@ public class Main {
 
         // PARTE 1: búsqueda lineal
         System.out.println("PARTE 1.1: búsqueda lineal mejor caso.");
-        // un código que sabemos que esta al principio.
+        // Un código que sabemos que esta al principio.
         int codigoDePruebaI = archivo.get(0).getCodigo(); 
         Sospechoso encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, codigoDePruebaI);
         System.out.println("Buscando codigo " + codigoDePruebaI + " -> " + encontrado);
@@ -37,7 +37,7 @@ public class Main {
         
        
         System.out.println("PARTE 1.2: búsqueda lineal medio caso.");
-        // un código que sabemos que esta al medio.
+        // Un código que sabemos que esta al medio.
         int codigoDePruebaM = archivo.get(archivo.size() / 2).getCodigo(); 
         encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, codigoDePruebaM);
         System.out.println("Buscando codigo " + codigoDePruebaM + " -> " + encontrado);
@@ -46,7 +46,7 @@ public class Main {
         
         
         System.out.println("PARTE 1.3: búsqueda lineal peor caso.");
-        // un código que sabemos que esta al final.
+        // Un código que sabemos que esta al final.
         int codigoDePruebaP = archivo.get(archivo.size() - 1).getCodigo(); 
         encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, codigoDePruebaP);
         System.out.println("Buscando codigo " + codigoDePruebaP + " -> " + encontrado);
@@ -58,7 +58,7 @@ public class Main {
         System.out.println("Sospechosos en Rosario con riesgo >= 7: " + filtrados.size() + "\n" + filtrados);
         
         
-        // Te toca esta parte Eli XDXDdxdxxdx.
+        // TODO: Implementar busqueda binaria
         
         tiempo1 = System.nanoTime();
         // PARTE 2: búsqueda binaria
