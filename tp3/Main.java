@@ -20,7 +20,7 @@ public class Main {
 		// Cantdades de sospechosos para prueba
 		int[] cantidades = { 500, 5000, 10000, 100000 };
 		// El archivo "en bruto": ya viene cargado y desordenado.
-		List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[0]);
+		List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[3]);
 		System.out.println("Archivo cargado con " + archivo.size() + " sospechosos.\n");
 //        System.out.println("Los Sospechosos: " + archivo.toString() + "\n");
 
@@ -82,6 +82,15 @@ public class Main {
 		System.out.println("Buscando codigo " + codigoDePruebaI + " -> " + encontradoBinaria);
 		duracion = System.nanoTime() - tiempo;
 		System.out.println("Tiempo de calculo de 2.2: " + duracion);
+		
+		tiempo = System.nanoTime();
+		
+		System.out.println("\nPARTE 2.3: buscar más parecido si no existe");
+		int codigoInexistente = 67;
+		encontradoBinaria = BuscadorBinario.buscarMasParecidoSiNoExiste(archivoOrdenado, codigoInexistente);
+		System.out.println("El código " + codigoInexistente + " no existe, el mas cercano es: " + encontradoBinaria);
+		duracion = System.nanoTime() - tiempo;
+		System.out.println("Tiempo de calculo de 2.3: " + duracion);
 
 		// Esto lo vemos juntos despues unu.
 
