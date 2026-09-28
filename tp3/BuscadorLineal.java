@@ -22,7 +22,7 @@ public class BuscadorLineal {
 	 */
 	public static Sospechoso buscarPorCodigoLineal(List<Sospechoso> lista, int codigo) {
 		// Implementación de búsqueda lineal
-
+		
 		for (int i = 0; i < lista.size(); i++) {
 			if (lista.get(i).getCodigo() == codigo) {
 				return lista.get(i);
