@@ -16,7 +16,7 @@ import java.util.List;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println("TP3 — Búsqueda Lineal y Binaria: Lucas Leal, Eliable Borel\n");
+		System.out.println("TP3 — Búsqueda Lineal y Binaria: Lucas Leal, Eliable Borel.\n");
 		// Cantdades de sospechosos para prueba
 		//                   0    1      2       3        4          5           6
 		int[] cantidades = { 500, 5_000, 10_000, 100_000, 1_000_000, 10_000_000, 20_000_000};
@@ -26,7 +26,7 @@ public class Main {
 		System.out.println("Archivo cargado con " + archivo.size() + " sospechosos.\n");
 //        System.out.println("Los Sospechosos: " + archivo.toString() + "\n");
 
-		// PARTE 2: búsqueda binaria
+		// PARTE 2: búsqueda binaria, ordenamiento.
 		// OJO: la búsqueda binaria necesita la lista ORDENADA por código.
 		// Hacemos una COPIA para no romper el orden del archivo original.
 		List<Sospechoso> archivoOrdenado = new ArrayList<>(archivo);
@@ -44,19 +44,17 @@ public class Main {
 		System.out.println("Ejecutando calentamiento de la JVM...");
 		
 		// Muestra de solo 1,000 elementos para el calentamiento
-//				List<Sospechoso> muestraWarmUp = archivo.subList(0, Math.min(10000, archivo.size()));
-//				int codigoWarmUp = muestraWarmUp.get(muestraWarmUp.size() - 1).getCodigo();
-//
-//				// Muestra pequeña y ordenada para calentar la Búsqueda Binaria de forma instantánea
-//				List<Sospechoso> muestraWarmUpBinaria = new ArrayList<>(muestraWarmUp);
-//				Collections.sort(muestraWarmUpBinaria);
-//
-//				for (int i = 0; i < 50_000; i++) {
-//				    BuscadorLineal.buscarPorCodigoLineal(muestraWarmUp, codigoWarmUp);
-//				    BuscadorBinario.buscarPorCodigo(muestraWarmUpBinaria, codigoWarmUp);
-//				}
-		for (int i = 0; i < 50; i++)
-			BuscadorLineal.buscarPorCodigoLineal(archivo, archivo.size() - 1);
+				List<Sospechoso> muestraWarmUp = archivo.subList(0, Math.min(1000, archivo.size()));
+				int codigoWarmUp = muestraWarmUp.get(muestraWarmUp.size() - 1).getCodigo();
+
+				// Muestra pequeña y ordenada para calentar la Búsqueda Binaria de forma instantánea
+				List<Sospechoso> muestraWarmUpBinaria = new ArrayList<>(muestraWarmUp);
+				Collections.sort(muestraWarmUpBinaria);
+
+				for (int i = 0; i < 50_000; i++) {
+				    BuscadorLineal.buscarPorCodigoLineal(muestraWarmUp, codigoWarmUp);
+				    BuscadorBinario.buscarPorCodigo(muestraWarmUpBinaria, codigoWarmUp);
+				}
 
 		System.out.println("Calentamiento finalizado.\n");
 		
@@ -65,7 +63,7 @@ public class Main {
 		* PARTE 1: búsqueda lineal
 		* ==========================================
 		*/
-		
+		System.out.println("================= PARTE 1: búsqueda lineal =================");
 		// Un código que sabemos que esta al principio.
 		System.out.println("PARTE 1.1: búsqueda lineal mejor caso.");
 		int codigoDePruebaI = archivo.get(0).getCodigo();
@@ -115,33 +113,36 @@ public class Main {
 		* PARTE 2: búsqueda binaria
 		* ==========================================
 		*/
-		
+		System.out.println("================= PARTE 2: búsqueda Binaria. =================");
 		// PARTE 2.1: búsqueda binaria iterativa.
-		System.out.println("PARTE 2.1: búsqueda binaria iterativa");
 		
+		System.out.println("PARTE 2.1: búsqueda binaria iterativa (Caso medio o mejor).");
+		
+		int codigoOrdenadoDePruebaM = archivoOrdenado.get((archivo.size() - 1) / 2).getCodigo();
 		tiempo = System.nanoTime();
-		Sospechoso encontradoBinaria = BuscadorBinario.buscarPorCodigo(archivoOrdenado, codigoDePruebaI);
+		Sospechoso encontradoBinaria = BuscadorBinario.buscarPorCodigo(archivoOrdenado, codigoOrdenadoDePruebaM);
 		duracion = System.nanoTime() - tiempo;
 		
-		System.out.println("Buscando codigo " + codigoDePruebaI + " -> " + encontradoBinaria);
+		System.out.println("Buscando codigo " + codigoOrdenadoDePruebaM + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.1: " + (duracion / 1_000) + "µs\n");
 
 		
 		// PARTE 2.2: búsqueda binaria recursiva.
-		System.out.println("PARTE 2.2: búsqueda binaria recursiva");
+		System.out.println("PARTE 2.2: búsqueda binaria recursiva (Caso inicial o peor).");
 
+		int codigoOrdenadoDePruebaI = archivoOrdenado.get(0).getCodigo(); // usamos el archivo ordenado para realizar las mediciones, de otra manera el buscador siempre buscara codigos en posiciones "aleatorias".
 		tiempo = System.nanoTime();
-		encontradoBinaria = BuscadorBinario.buscarPorCodigoRecursiva(archivoOrdenado, codigoDePruebaP, 0,
+		encontradoBinaria = BuscadorBinario.buscarPorCodigoRecursiva(archivoOrdenado, codigoOrdenadoDePruebaI, 0,
 				archivoOrdenado.size() - 1);
 		duracion = System.nanoTime() - tiempo;
 
-		System.out.println("Buscando codigo " + codigoDePruebaP + " -> " + encontradoBinaria);
+		System.out.println("Buscando codigo " + codigoOrdenadoDePruebaI + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.2: " + (duracion / 1_000) + "µs\n");
 		
 		
 		// PARTE 2.3: búsqueda binaria mas parecido.
 		System.out.println("PARTE 2.3: buscar más parecido si no existe");
-		int codigoInexistente = archivo.get(archivo.size() / 3).getCodigo();
+		int codigoInexistente = archivoOrdenado.get(archivo.size() / 3).getCodigo();
 		
 		tiempo = System.nanoTime();
 		encontradoBinaria = BuscadorBinario.buscarMasParecidoSiNoExiste(archivoOrdenado, codigoInexistente);
@@ -152,7 +153,7 @@ public class Main {
 
 		
 		// EXTRA: PARTE 2.4: búsqueda binaria con un caso muy probable.
-		System.out.println("PARTE 2.4: búsqueda binaria caso probable (casi medio)");
+		System.out.println("EXTRA. PARTE 2.4: búsqueda binaria caso probable (casi medio)");
 		
 		tiempo = System.nanoTime();
 		encontradoBinaria = BuscadorBinario.buscarPorCodigo(archivoOrdenado, encontradoBinaria.getCodigo());
@@ -161,51 +162,66 @@ public class Main {
 		System.out.println("Buscando codigo " + encontradoBinaria.getCodigo() + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.4: " + (duracion / 1_000) + "µs\n");
 
+		
+		
+		// TODO: agreguen acá sus propias pruebas y mediciones con
+		// System.nanoTime() para comparar lineal vs. binaria, como pide
+		// el enunciado. Prueben con códigos al principio, en el medio
+		// y al final de la lista.
 		/*
 		* ==========================================
 		* PARTE 3: Comparación
 		* ==========================================
 		*/
+		System.out.println("================= PARTE 3: Comparación de tiempos. =================");
+		System.out.println("Cantidad | Caso | Lineal | Binaria (Ya ordenado, el tiempo de ordenacion es de ≈" + (duracionSort / 1_000_000) + " ms)");
 		
-		System.out.println("\nCantidad | Caso | Lineal | Binaria");
+		int repeticiones = 100;
 		
 		for (int i = 0; i < 3; i++) {
 			System.out.print(cantidades[cantidad] + " | ");
 			
-			int objetivo = 0;
+			int objetivoLineal = 0;
+			int objetivoBinario = 0;
+
 			if (i == 0) {
-				System.out.print("inicio | ");
-				objetivo = archivo.get(0).getCodigo();
+			    System.out.print("inicio | ");
+			    objetivoLineal = archivo.get(0).getCodigo();
+			    objetivoBinario = archivoOrdenado.get(0).getCodigo(); // usamos el archivo ordenado para realizar las mediciones, de otra manera el buscador siempre buscara codigos en posiciones "aleatorias".
+			} else if (i == 1) {
+			    System.out.print("medio  | ");
+			    objetivoLineal = archivo.get(archivo.size() / 2).getCodigo();
+			    
+			    // Cálculo exacto de la primera mitad que calcula la Búsqueda Binaria
+			    int primerMid = (archivoOrdenado.size() - 1) / 2;
+			    objetivoBinario = archivoOrdenado.get(primerMid).getCodigo();
+			} else if (i == 2) {
+			    System.out.print("final  | ");
+			    objetivoLineal = archivo.get(archivo.size() - 1).getCodigo();
+			    objetivoBinario = archivoOrdenado.get(archivoOrdenado.size() - 1).getCodigo();
 			}
-			else if (i == 1) {
-				objetivo = archivo.get(archivo.size() / 2).getCodigo();
-				System.out.print("medio | ");
-			}
-			else if (i == 2) {
-				objetivo = archivo.get(archivo.size() - 1).getCodigo();
-				System.out.print("final | ");
-			}
-			
 			
 			
 			tiempo = System.nanoTime();
-			encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, objetivo);
-			duracion = System.nanoTime() - tiempo;
+			for (int k = 0; k < repeticiones; k++) { // Al hacer las mediciones muchas veces el promedio eliminara el ruido del JVM.
+			encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, objetivoLineal);
+			}
+			duracion = System.nanoTime();
+			
+			long promedio = (duracion - tiempo) / repeticiones;
 
-			System.out.print((duracion / 1_000) + "µs | ");
+			System.out.print((promedio / 1_000_000) + "ms | ");
 
 			tiempo = System.nanoTime();
-			archivoOrdenado = new ArrayList<>(archivo);
-			encontrado = BuscadorBinario.buscarPorCodigo(archivoOrdenado, objetivo);
-			duracion = System.nanoTime() - tiempo;
+			for (int l = 0; l < repeticiones * 1000; l++) { // Al hacer las mediciones muchas veces el promedio eliminara el ruido del JVM.
+			encontrado = BuscadorBinario.buscarPorCodigo(archivoOrdenado, objetivoBinario);
+			}
+			duracion = System.nanoTime();
+			
+			promedio = (duracion - tiempo) / (repeticiones * 1000);
 
-			System.out.print((duracion / 1_000) + "µs\n");
+			System.out.print((promedio) + "ns\n");
 		}
 		
-		// Esto lo vemos juntos despues unu.
-		// TODO: agreguen acá sus propias pruebas y mediciones con
-		// System.nanoTime() para comparar lineal vs. binaria, como pide
-		// el enunciado. Prueben con códigos al principio, en el medio
-		// y al final de la lista.
 	}
 } 
