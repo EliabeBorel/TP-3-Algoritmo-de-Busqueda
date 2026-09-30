@@ -18,9 +18,10 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("TP3 — Búsqueda Lineal y Binaria: Lucas Leal, Eliable Borel\n");
 		// Cantdades de sospechosos para prueba
-		int[] cantidades = { 500, 5000, 10000, 100000, 1000000, 10000000, 20000000};
+		int[] cantidades = { 500, 5_000, 10_000, 100_000, 1_000_000, 10_000_000, 20_000_000};
+		int cantidad = 4;
 		// El archivo "en bruto": ya viene cargado y desordenado.
-		List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[5]);
+		List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[cantidad]);
 		System.out.println("Archivo cargado con " + archivo.size() + " sospechosos.\n");
 //        System.out.println("Los Sospechosos: " + archivo.toString() + "\n");
 
@@ -34,7 +35,8 @@ public class Main {
 		System.out.println("Tiempo de ordenamiento de la lista: " + (duracionSort / 1_000_000) + " ms\n");
 		
 		
-		/*==========================================
+		/*
+		* ==========================================
 		* CALENTAMIENTO DE LA JVM (Warm-up)
 		* ==========================================
 		*/
@@ -55,8 +57,12 @@ public class Main {
 
 		System.out.println("Calentamiento finalizado.\n");
 		
-
-		// PARTE 1: búsqueda lineal
+		/*
+		* ==========================================
+		* PARTE 1: búsqueda lineal
+		* ==========================================
+		*/
+		
 		// Un código que sabemos que esta al principio.
 		System.out.println("PARTE 1.1: búsqueda lineal mejor caso.");
 		int codigoDePruebaI = archivo.get(0).getCodigo();
@@ -93,14 +99,22 @@ public class Main {
 		System.out.println("Tiempo de calculo de 1.3: " + (duracion / 1_000_000) + "ms\n");
 
 		
-		// ↓↓↓ Por alguna razon se bugea cuando se usa con cantidades[3] o más ↓↓↓
+		/* ↓↓↓ Por alguna razon se bugea cuando se usa con cantidades[3] o más y no muestra el resto del
+		* código, para solucionarlo hicimos qeu no se muestren todos datos de los sospechosos,
+		* solo dice cuanta candidad hay ↓↓↓
+		*/
 		// Buscar por ciudad y riesgo Minimo.
-//		List<Sospechoso> filtrados = BuscadorLineal.buscarPorCiudadYRiesgoMinimo(archivo, "Rosario", 7);
-//		System.out.println("Sospechosos en Rosario con riesgo >= 7: " + filtrados.size() + "\n" + filtrados + "\n\n");
+		List<Sospechoso> filtrados = BuscadorLineal.buscarPorCiudadYRiesgoMinimo(archivo, "Rosario", 7);
+		System.out.println("Sospechosos en Rosario con riesgo >= 7: " + filtrados.size() + /*"\n" + filtrados +*/ "\n\n");
 
-
-		// PARTE 2.1: búsqueda binaria
-		System.out.println("PARTE 2.1: búsqueda binaria");
+		/*
+		* ==========================================
+		* PARTE 2: búsqueda binaria
+		* ==========================================
+		*/
+		
+		// PARTE 2.1: búsqueda binaria iterativa.
+		System.out.println("PARTE 2.1: búsqueda binaria iterativa");
 		
 		tiempo = System.nanoTime();
 		Sospechoso encontradoBinaria = BuscadorBinario.buscarPorCodigo(archivoOrdenado, codigoDePruebaI);
@@ -109,6 +123,7 @@ public class Main {
 		System.out.println("Buscando codigo " + codigoDePruebaI + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.1: " + (duracion / 1_000) + "µs\n");
 
+		
 		// PARTE 2.2: búsqueda binaria recursiva.
 		System.out.println("PARTE 2.2: búsqueda binaria recursiva");
 
@@ -120,9 +135,10 @@ public class Main {
 		System.out.println("Buscando codigo " + codigoDePruebaP + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.2: " + (duracion / 1_000) + "µs\n");
 		
+		
 		// PARTE 2.3: búsqueda binaria mas parecido.
 		System.out.println("PARTE 2.3: buscar más parecido si no existe");
-		int codigoInexistente = archivo.get(0).getCodigo() / 3;
+		int codigoInexistente = archivo.size() / 3;
 		
 		tiempo = System.nanoTime();
 		encontradoBinaria = BuscadorBinario.buscarMasParecidoSiNoExiste(archivoOrdenado, codigoInexistente);
@@ -142,6 +158,36 @@ public class Main {
 		System.out.println("Buscando codigo " + encontradoBinaria.getCodigo() + " -> " + encontradoBinaria);
 		System.out.println("Tiempo de calculo de 2.4: " + (duracion / 1_000) + "µs\n");
 
+		/*
+		* ==========================================
+		* PARTE 3: Comparación
+		* ==========================================
+		*/
+		
+		System.out.println("\nCantidad | Lineal | Binaria");
+		
+		for (int i = 0; i < 5; i++) {
+			if (i == cantidad) continue;
+			
+			archivo = ListaDeSospechosos.generar(cantidades[i]);
+			System.out.println(cantidades[i] + " | ");
+			
+			int objetivo1 = archivo.get(0).getCodigo();
+			
+			tiempo = System.nanoTime();
+			encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, objetivo1);
+			duracion = System.nanoTime() - tiempo;
+
+			System.out.println((duracion / 1_000) + "µs | ");
+
+			tiempo = System.nanoTime();
+			archivoOrdenado = new ArrayList<>(archivo);
+			encontrado = BuscadorBinario.buscarPorCodigo(archivo, objetivo1);
+			duracion = System.nanoTime() - tiempo;
+
+			System.out.println((duracion / 1_000) + "µs");
+		}
+		
 		// Esto lo vemos juntos despues unu.
 		// TODO: agreguen acá sus propias pruebas y mediciones con
 		// System.nanoTime() para comparar lineal vs. binaria, como pide

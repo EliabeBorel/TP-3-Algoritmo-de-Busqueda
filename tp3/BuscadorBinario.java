@@ -56,13 +56,6 @@ public class BuscadorBinario {
 		return null;
 	}
 
-	/*
-	 * TODO: Revisar esto. Si devuelve el numero mas carcano, pero no el más cercano
-	 * por abajo, solo el más cercano que exista
-	 * 0 1 2 3 4 5 6
-	 * 1 3 5 6 7 8 9
-	 */
-	
 	/**
 	 * El "giro final" del TP: si el código no existe, en vez de solo decir "no
 	 * encontrado", este método debe devolver el sospechoso cuyo código es el más
@@ -90,7 +83,15 @@ public class BuscadorBinario {
 				low = mid + 1;
 		}
 
-		return listaOrdenada.get(mid);
+		/*
+		 * Cuando termina el bucle tras no encontrar el elemento low queda a la derecha
+		 * y high queda a la izquierda, por lo que high reprecenta al último valor antes
+		 * del buscado
+		 */
+		if (high >= 0)
+			return listaOrdenada.get(high);
+
+		return null;
 	}
 
 }
