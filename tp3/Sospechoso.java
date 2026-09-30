@@ -1,4 +1,4 @@
-package tp3;
+ package tp3;
 /**
  * Representa un registro dentro del archivo de la agencia.
  * Implementa Comparable por "codigo" porque ese es el campo

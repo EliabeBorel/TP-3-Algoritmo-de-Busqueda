@@ -1,4 +1,4 @@
-package tp3;
+ package tp3;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +18,9 @@ public class Main {
 	public static void main(String[] args) {
 		System.out.println("TP3 — Búsqueda Lineal y Binaria: Lucas Leal, Eliable Borel\n");
 		// Cantdades de sospechosos para prueba
+		//                   0    1      2       3        4          5           6
 		int[] cantidades = { 500, 5_000, 10_000, 100_000, 1_000_000, 10_000_000, 20_000_000};
-		int cantidad = 4;
+		int cantidad = 5;
 		// El archivo "en bruto": ya viene cargado y desordenado.
 		List<Sospechoso> archivo = ListaDeSospechosos.generar(cantidades[cantidad]);
 		System.out.println("Archivo cargado con " + archivo.size() + " sospechosos.\n");
@@ -43,17 +44,19 @@ public class Main {
 		System.out.println("Ejecutando calentamiento de la JVM...");
 		
 		// Muestra de solo 1,000 elementos para el calentamiento
-				List<Sospechoso> muestraWarmUp = archivo.subList(0, Math.min(1000, archivo.size()));
-				int codigoWarmUp = muestraWarmUp.get(muestraWarmUp.size() - 1).getCodigo();
-
-				// Muestra pequeña y ordenada para calentar la Búsqueda Binaria de forma instantánea
-				List<Sospechoso> muestraWarmUpBinaria = new ArrayList<>(muestraWarmUp);
-				Collections.sort(muestraWarmUpBinaria);
-
-				for (int i = 0; i < 20_000; i++) {
-				    BuscadorLineal.buscarPorCodigoLineal(muestraWarmUp, codigoWarmUp);
-				    BuscadorBinario.buscarPorCodigo(muestraWarmUpBinaria, codigoWarmUp);
-				}
+//				List<Sospechoso> muestraWarmUp = archivo.subList(0, Math.min(10000, archivo.size()));
+//				int codigoWarmUp = muestraWarmUp.get(muestraWarmUp.size() - 1).getCodigo();
+//
+//				// Muestra pequeña y ordenada para calentar la Búsqueda Binaria de forma instantánea
+//				List<Sospechoso> muestraWarmUpBinaria = new ArrayList<>(muestraWarmUp);
+//				Collections.sort(muestraWarmUpBinaria);
+//
+//				for (int i = 0; i < 50_000; i++) {
+//				    BuscadorLineal.buscarPorCodigoLineal(muestraWarmUp, codigoWarmUp);
+//				    BuscadorBinario.buscarPorCodigo(muestraWarmUpBinaria, codigoWarmUp);
+//				}
+		for (int i = 0; i < 50; i++)
+			BuscadorLineal.buscarPorCodigoLineal(archivo, archivo.size() - 1);
 
 		System.out.println("Calentamiento finalizado.\n");
 		
@@ -84,7 +87,7 @@ public class Main {
 		duracion = System.nanoTime() - tiempo;
 
 		System.out.println("Buscando codigo " + codigoDePruebaM + " -> " + encontrado);
-		System.out.println("Tiempo de calculo de 1.2: " + (duracion / 1_000_000) + "ms\n");
+		System.out.println("Tiempo de calculo de 1.2: " + (duracion / 1_000) + "ms\n");
 
 		
 		// Un código que sabemos que esta al final.
@@ -96,7 +99,7 @@ public class Main {
 		duracion = System.nanoTime() - tiempo;
 		
 		System.out.println("Buscando codigo " + codigoDePruebaP + " -> " + encontrado);
-		System.out.println("Tiempo de calculo de 1.3: " + (duracion / 1_000_000) + "ms\n");
+		System.out.println("Tiempo de calculo de 1.3: " + (duracion / 1_000) + "ms\n");
 
 		
 		/* ↓↓↓ Por alguna razon se bugea cuando se usa con cantidades[3] o más y no muestra el resto del
@@ -138,7 +141,7 @@ public class Main {
 		
 		// PARTE 2.3: búsqueda binaria mas parecido.
 		System.out.println("PARTE 2.3: buscar más parecido si no existe");
-		int codigoInexistente = archivo.size() / 3;
+		int codigoInexistente = archivo.get(archivo.size() / 3).getCodigo();
 		
 		tiempo = System.nanoTime();
 		encontradoBinaria = BuscadorBinario.buscarMasParecidoSiNoExiste(archivoOrdenado, codigoInexistente);
@@ -164,28 +167,39 @@ public class Main {
 		* ==========================================
 		*/
 		
-		System.out.println("\nCantidad | Lineal | Binaria");
+		System.out.println("\nCantidad | Caso | Lineal | Binaria");
 		
-		for (int i = 0; i < 5; i++) {
-			if (i == cantidad) continue;
+		for (int i = 0; i < 3; i++) {
+			System.out.print(cantidades[cantidad] + " | ");
 			
-			archivo = ListaDeSospechosos.generar(cantidades[i]);
-			System.out.println(cantidades[i] + " | ");
+			int objetivo = 0;
+			if (i == 0) {
+				System.out.print("inicio | ");
+				objetivo = archivo.get(0).getCodigo();
+			}
+			else if (i == 1) {
+				objetivo = archivo.get(archivo.size() / 2).getCodigo();
+				System.out.print("medio | ");
+			}
+			else if (i == 2) {
+				objetivo = archivo.get(archivo.size() - 1).getCodigo();
+				System.out.print("final | ");
+			}
 			
-			int objetivo1 = archivo.get(0).getCodigo();
+			
 			
 			tiempo = System.nanoTime();
-			encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, objetivo1);
+			encontrado = BuscadorLineal.buscarPorCodigoLineal(archivo, objetivo);
 			duracion = System.nanoTime() - tiempo;
 
-			System.out.println((duracion / 1_000) + "µs | ");
+			System.out.print((duracion / 1_000) + "µs | ");
 
 			tiempo = System.nanoTime();
 			archivoOrdenado = new ArrayList<>(archivo);
-			encontrado = BuscadorBinario.buscarPorCodigo(archivo, objetivo1);
+			encontrado = BuscadorBinario.buscarPorCodigo(archivoOrdenado, objetivo);
 			duracion = System.nanoTime() - tiempo;
 
-			System.out.println((duracion / 1_000) + "µs");
+			System.out.print((duracion / 1_000) + "µs\n");
 		}
 		
 		// Esto lo vemos juntos despues unu.
