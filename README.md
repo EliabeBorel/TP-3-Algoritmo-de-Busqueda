@@ -29,6 +29,10 @@ Importa el proyecto en tu entorno de desarrollo favorito (Eclipse, IntelliJ IDEA
 
 Localiza el archivo Main.java dentro del paquete tp3 y ejecútalo. El programa generará automáticamente la lista de sospechosos, realizará el pre-calentamiento de la JVM y mostrará en consola las métricas de tiempo comparando la Búsqueda Lineal vs. Búsqueda Binaria. No se requieren dependencias externas.
 
+**De otra manera puede solamente descargar este archivo comprimido listo para compilar:**
+
+[ [tp3.zip](https://github.com/user-attachments/files/32842749/tp3.zip) ]
+
 ---
 ```markdown
 ### 📊 Resultados de Rendimiento (Benchmark)
