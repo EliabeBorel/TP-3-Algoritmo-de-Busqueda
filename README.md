@@ -19,7 +19,7 @@ La carpeta `tp3` contiene todo lo necesario para la ejecución limpia del códig
 
 Abre tu terminal y ejecuta el siguiente comando:
 ```bash
-git clone [https://github.com/tu-usuario/nombre-del-repo.git](https://github.com/EliabeBorel/TP-3-Algoritmo-de-Busqueda.git)
+git clone https://github.com/EliabeBorel/TP-3-Algoritmo-de-Busqueda.git
 ```
 **2. Abrir en tu IDE**
 
