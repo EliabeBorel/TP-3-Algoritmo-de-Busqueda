@@ -5,8 +5,7 @@ Hola. 30/09/2026 version final.
 El trabajo práctico cuenta con un informe detallado sobre el análisis de complejidad y los resultados obtenidos.
 
 **Opciones de visualización:**
-1. 📖 Leer el archivo local: [ [Documento final TP 3 LB.pdf](https://github.com/user-attachments/files/32841894/Documento.final.TP.3.LB.pdf) ]
-2. ☁️ [Abrir en Google Docs](https://docs.google.com/document/d/1Y7YFE4vEzDGyFifgRao1Ttdp5xSWfSbGcIXlQyixnyQ/edit?tab=t.b2lxd98eef13#heading=h.4cbvatv47xev) (Lectura rápida en el navegador)
+1. 📖 Leer el archivo local: [ [Documento final TP 3 LB.docx](https://github.com/user-attachments/files/32865080/Documento.final.TP.3.LB.docx) ]
 
 ---
 
